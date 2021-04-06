@@ -11,7 +11,7 @@ def video_comments(video_id):
     # creating youtube resource object
     youtube = build('youtube', 'v3',developerKey=api_key)
     # retrieve youtube video results
-    video_response=youtube.commentThreads().list(part='snippet,replies',videoId=video_id).execute()
+    video_response=youtube.commentThreads().list(part='snippet,replies',order='relevance',videoId=video_id).execute()
     # iterate video response
     while video_response:
         # extracting required info
@@ -30,16 +30,17 @@ def video_comments(video_id):
                     # Store reply is list
                     replies.append(reply)
             # print comment with list of reply
-            print(comment, replies, end = '\n\n')
+            if '?' in comment:
+                print(comment, replies, end = '\n\n')
             # empty reply list
             replies = []
         # Again repeat
         if 'nextPageToken' in video_response:
-            video_response = youtube.commentThreads().list(part = 'snippet,replies',videoId = video_id).execute()
+            video_response = youtube.commentThreads().list(part = 'snippet,replies', pageToken=video_response['nextPageToken'], order='relevance',videoId = video_id).execute()
         else:
             break
   
 # Enter video id
-video_id = "VB30HNL2q8w"
+video_id = "JwSS70SZdyM"
 # Call function
 video_comments(video_id)
