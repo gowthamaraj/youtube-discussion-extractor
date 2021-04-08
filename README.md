@@ -3,3 +3,12 @@
 
 ## How to set up the project
 
+1. Make a file named api.yaml with key: value.
+2. follow the steps below to run the project
+
+    $ `pip shell`
+
+    $ `pip install`
+
+    $ `python script.py`
+
